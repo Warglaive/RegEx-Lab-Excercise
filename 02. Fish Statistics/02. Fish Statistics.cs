@@ -13,23 +13,36 @@ namespace _02.Fish_Statistics
             var bodyPartsCount = new Dictionary<string, int>(); // count char occurances
             var matchResult = new List<string>(); // add legit fishes here 
             var input = Console.ReadLine();
-            var pattern = @"[>|<]*<*\(+['|x|-]>";
+            var pattern = @"([>]*)<*(\(+)(['|x|-])>";
             var regex = new Regex(pattern);
+            var tailLenghtSantimeters = 0;
+            var tailType = string.Empty;
 
             var matches = regex.Matches(input);
-            foreach (var fish in matches)
+            foreach (Match fish in matches)
             {
                 matchResult.Add(fish.ToString());
-            }
-            foreach (var fish in matchResult)
-            {
-                foreach (var fishParts in fish)
-                {
-                    if (fishParts < 5) //use dictionary value to check character's count
-                    {
+                var tailLenght = fish.Groups[1].Length;
+                var bodyLenght = fish.Groups[2].Length;
+                tailLenghtSantimeters = tailLenght * 2; //tail to CM
 
-                    }
+                if (tailLenghtSantimeters > 10)
+                {
+                    tailType = "Long";
                 }
+                else if (tailLenghtSantimeters > 2)
+                {
+                    tailType = "Medium";
+                }
+                else if (tailLenghtSantimeters == 2)
+                {
+                    tailType = "Short";
+                }
+                else if (tailLenghtSantimeters < 2)
+                {
+                    tailType = "None";
+                }
+
             }
         }
     }
